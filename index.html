@@ -18,6 +18,7 @@
 
         /* Общая стилизация для макета телефона */
         .iphone-body {
+            /* Фиксированный размер макета, который масштабируется на мобильных устройствах */
             width: 320px; 
             height: 690px; 
             background-color: black; 
@@ -64,7 +65,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding-top: 50px; 
+            padding-top: 35px; /* Сдвиг вверх на 5px (было 40px) */
+            position: relative; /* Для позиционирования модального окна */
         }
         
         .panel-header {
@@ -111,7 +113,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.8), inset 0 0 7px rgba(255, 0, 0, 0.6);
+            /* УВЕЛИЧЕННОЕ СВЕЧЕНИЕ */
+            box-shadow: 0 0 25px rgba(255, 0, 0, 1.0), inset 0 0 10px rgba(255, 0, 0, 0.8);
         }
         
         .id-input-wrapper .enter-id-text {
@@ -166,7 +169,6 @@
             align-items: center;
             padding: 10px 0;
             flex-grow: 1;
-            /* Вся эта секция находится внутри app-panel, где верхний padding-top: 50px */
         }
         
         .stage2-profile-area {
@@ -176,7 +178,6 @@
             width: 100%;
             margin-bottom: 20px;
         }
-        /* В этой секции иконка profile-icon тоже 90x90, но без верхнего отступа */
         .stage2-profile-area .profile-icon {
             margin-top: 0; 
         }
@@ -200,6 +201,7 @@
             font-size: 1.2rem;
             font-weight: bold;
             margin-bottom: 20px;
+            margin-top: -10px; /* Сдвиг надписи на 10px вверх */
         }
 
         /* Вкладки (Tabs) */
@@ -207,36 +209,94 @@
             width: 95%;
             display: flex;
             justify-content: space-around;
-            border-bottom: 2px solid #222; /* Легкий разделитель */
+            background-color: black;
+            border-bottom: 3px solid red; 
             margin-bottom: 20px;
+            padding-bottom: 0px; 
         }
-        .tab {
-            color: #A0A0A0;
-            padding: 10px 5px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            cursor: pointer;
-            border-bottom: 2px solid transparent;
-            transition: color 0.2s, border-bottom-color 0.2s;
-        }
-        .tab.active {
-            color: red;
-            border-bottom-color: red;
+        
+        .tab-wrapper {
+            position: relative;
+            flex-grow: 1; 
+            text-align: center;
+            margin: 0;
         }
 
+        .tab {
+            padding: 10px 5px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: color 0.2s;
+            color: red; /* Неактивные вкладки красный текст */
+            background-color: black;
+        }
+
+        /* Активная вкладка: белый текст на красном фоне */
+        .tab-wrapper.active {
+            z-index: 20; 
+            margin-bottom: -3px; /* Сдвигает вверх, чтобы перекрыть красную линию контейнера */
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5); /* Слабое свечение */
+        }
+
+        .tab-wrapper.active .tab {
+            background-color: red;
+            color: white;
+            border-radius: 4px 4px 0 0;
+            cursor: default;
+        }
+        
+        /* Кнопка APPLY */
+        .apply-button {
+            width: 90%; 
+            background-color: #333; /* Темный фон по умолчанию (неактивный) */
+            color: white;
+            padding: 10px 0; 
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s, box-shadow 0.2s;
+            border: none;
+            margin-top: -10px; 
+            margin-bottom: 15px;
+        }
+        /* Стиль для активной кнопки APPLY (красный) */
+        .apply-button.active {
+            background-color: red; 
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+        }
+        .apply-button:hover:not(.active) { background-color: #444; }
+
+
         /* Список функций и переключатели */
-        .functions-list {
+        .functions-list-container {
             width: 90%;
-            flex-grow: 1; /* Чтобы список занимал место между вкладками и кнопкой APPLY */
-            overflow-y: auto; /* На случай, если функций будет много */
+            flex-grow: 1; 
+            overflow-y: auto; 
             padding-bottom: 20px;
         }
+        .functions-list {
+            /* Контент списка внутри контейнера */
+            width: 100%;
+        }
+
+        /* Стили для контента вкладок */
+        .tab-content {
+            display: none; /* По умолчанию все скрыто */
+        }
+        /* Активная вкладка (должна быть видима) */
+        #aimbotContent {
+            display: block; /* AIMBOT активен по умолчанию */
+        }
+
         .function-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 15px 0;
-            border-bottom: 1px solid #1a1a1a; /* Тонкий разделитель */
+            border-bottom: 1px solid #1a1a1a; 
             color: white;
             font-size: 1rem;
             font-weight: 500;
@@ -267,7 +327,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: #333; /* Неактивный цвет */
+            background-color: #333; 
             transition: .4s;
             border-radius: 28px;
         }
@@ -282,36 +342,98 @@
             transition: .4s;
             border-radius: 50%;
         }
+        /* Стили для включенного переключателя (красный) */
         input:checked + .slider {
-            background-color: red; /* Активный цвет */
+            background-color: red; 
         }
         input:checked + .slider:before {
             transform: translateX(22px);
             background-color: white;
         }
+        
+        /* --- МОДАЛЬНОЕ ОКНО (Modal) --- */
+        #loadingModal {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8); /* Затемнение фона */
+            display: none; /* Скрыто по умолчанию */
+            justify-content: center;
+            align-items: center;
+            z-index: 50; 
+            backdrop-filter: blur(4px);
+        }
 
-        /* Кнопка APPLY внизу (Обновленные стили) */
-        .apply-button {
-            width: 90%;
-            background-color: #333; /* Более темный фон, как на картинке */
-            color: #A0A0A0;
-            padding: 15px 0;
-            border-radius: 8px;
+        .modal-content {
+            width: 85%;
+            max-width: 280px;
+            background-color: #1a1a1a; 
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            border: 3px solid red;
+            box-shadow: 0 0 35px rgba(255, 0, 0, 1.5); /* Более сильное Красное свечение */
+        }
+
+        .modal-info {
+            margin-bottom: 15px;
+        }
+        
+        .modal-info-text {
+            color: #ccc;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .modal-username {
+            color: red;
             font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .modal-message {
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            min-height: 20px;
+        }
+        
+        /* Индикатор загрузки (Progress Bar) */
+        #progressBarContainer {
+            width: 100%;
+            background-color: #333;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            height: 10px;
+            overflow: hidden;
+            border: 1px solid red;
+        }
+
+        #progressBar {
+            height: 100%;
+            width: 0%;
+            background-color: red;
+            transition: width 0.2s linear;
+        }
+        
+        /* Кнопка OK/CLOSE */
+        .modal-button {
+            width: 100%;
+            background-color: red;
+            color: white;
+            padding: 10px 0;
+            border-radius: 6px;
             font-weight: bold;
             cursor: pointer;
             border: none;
-            margin-top: 10px; /* Отступ от списка функций */
-            margin-bottom: 20px; 
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Немного тени */
-            transition: background-color 0.2s, color 0.2s; /* Добавляем переход */
+            transition: background-color 0.2s;
         }
-        .apply-button:hover {
-            background-color: #444; /* Слегка светлее при наведении */
-            color: white; /* Белый текст при наведении */
-        }
-        .apply-button:active {
-            background-color: #222; /* Темнее при нажатии */
+        .modal-button:hover {
+            background-color: #cc0000;
         }
 
         /* Медиа-запрос для лучшей адаптивности на маленьких экранах */
@@ -355,7 +477,7 @@
                             class="id-input-container"
                             placeholder="Your ID"
                             maxlength="12"
-                            minlength="6" <!-- Добавлено минимальное количество символов -->
+                            minlength="6" 
                         >
                         <div class="continue-button" onclick="handleContinue()">CONTINUE</div>
                     </div>
@@ -366,75 +488,197 @@
                     <!-- Профиль/ID -->
                     <div class="stage2-profile-area">
                         <div class="profile-icon">
-                            <!-- ИСПРАВЛЕНО: Теперь используется тот же рабочий URL изображения, что и на Stage 1 -->
                             <img src="https://image.winudf.com/v2/image1/Y29tLmZmaDR4LmluamVjdG9yLmhhY2tfaWNvbl8xNjQzMjQ3NDQ3XzA4OQ/icon.webp?w=90&fakeurl=1&type=.webp" 
                                 alt="Profile Icon" 
                                 onerror="this.onerror=null; this.src='https://placehold.co/90x90/FF0000/000000?text=H4X%0ASkull';">
                         </div>
                         <div class="profile-texts">
                             <div class="id-display">ID: <span id="displayedId">609214735</span></div>
-                            <div class="username-display">Micro4el_2020</div>
+                            <div class="username-display" id="displayedUsername">dem1n_25</div>
                         </div>
                     </div>
 
                     <div class="activation-title">Activate Functions</div>
 
-                    <!-- Вкладки -->
-                    <div class="tabs-container">
-                        <div class="tab active">AIMBOT</div>
-                        <div class="tab">ESP</div>
-                        <div class="tab">GHOST</div>
-                        <div class="tab">OTHERS</div>
+                    <!-- Вкладки (Tabs) -->
+                    <div class="tabs-container" id="tabsContainer">
+                        <div class="tab-wrapper active" data-tab="aimbot" onclick="showTab('aimbot')">
+                            <div class="tab">AIMBOT</div>
+                        </div>
+                        <div class="tab-wrapper" data-tab="esp" onclick="showTab('esp')">
+                            <div class="tab">ESP</div>
+                        </div>
+                        <div class="tab-wrapper" data-tab="ghost" onclick="showTab('ghost')">
+                            <div class="tab">GHOST</div>
+                        </div>
+                        <div class="tab-wrapper" data-tab="others" onclick="showTab('others')">
+                            <div class="tab">OTHERS</div>
+                        </div>
                     </div>
                     
-                    <!-- Список функций -->
-                    <div class="functions-list">
-                        <!-- AIMBOT -->
-                        <div class="function-item">
-                            <span class="function-name">/AIMBOT</span>
-                            <label class="switch">
-                                <input type="checkbox">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                        <!-- AIMLOCK -->
-                        <div class="function-item">
-                            <span class="function-name">AIMLOCK</span>
-                            <label class="switch">
-                                <input type="checkbox">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                        <!-- AUTO HEADSHOT -->
-                        <div class="function-item">
-                            <span class="function-name">AUTO HEADSHOT</span>
-                            <label class="switch">
-                                <input type="checkbox">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                        <!-- AIM FOV (360) -->
-                        <div class="function-item">
-                            <span class="function-name">AIM FOV (360)</span>
-                            <label class="switch">
-                                <input type="checkbox">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                        <!-- Дополнительный элемент для заполнения места -->
-                        <div class="function-item">
-                            <span class="function-name">WALLHACK</span>
-                            <label class="switch">
-                                <input type="checkbox">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
+                    <!-- Контейнер для списков функций -->
+                    <div class="functions-list-container" id="functionsListContainer">
                         
+                        <!-- AIMBOT Content (По умолчанию активен) -->
+                        <div class="functions-list tab-content" id="aimbotContent">
+                            <!-- AIMBOT -->
+                            <div class="function-item">
+                                <span class="function-name">AIMBOT</span>
+                                <label class="switch">
+                                    <input type="checkbox" data-feature="AIMBOT" onchange="updateApplyButton()">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <!-- AIMLOCK -->
+                            <div class="function-item">
+                                <span class="function-name">AIMLOCK</span>
+                                <label class="switch">
+                                    <input type="checkbox" data-feature="AIMLOCK" onchange="updateApplyButton()">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <!-- AUTO HEADSHOT -->
+                            <div class="function-item">
+                                <span class="function-name">AUTO HEADSHOT</span>
+                                <label class="switch">
+                                    <input type="checkbox" data-feature="AUTO HEADSHOT" onchange="updateApplyButton()">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <!-- AIM FOV (360) -->
+                            <div class="function-item">
+                                <span class="function-name">AIM FOV (360)</span>
+                                <label class="switch">
+                                    <input type="checkbox" data-feature="AIM FOV (360)" onchange="updateApplyButton()">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- ESP Content (Скрыт по умолчанию) -->
+                        <div class="functions-list tab-content" id="espContent">
+                            <!-- ESP FIRE -->
+                            <div class="function-item">
+                                <span class="function-name">ESP FIRE</span>
+                                <label class="switch">
+                                    <input type="checkbox" data-feature="ESP FIRE" onchange="updateApplyButton()">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <!-- ESP LINE -->
+                            <div class="function-item">
+                                <span class="function-name">ESP LINE</span>
+                                <label class="switch">
+                                    <input type="checkbox" data-feature="ESP LINE" onchange="updateApplyButton()">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <!-- ESP NAME -->
+                            <div class="function-item">
+                                <span class="function-name">ESP NAME</span>
+                                <label class="switch">
+                                    <input type="checkbox" data-feature="ESP NAME" onchange="updateApplyButton()">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <!-- ESP DISTANCE -->
+                            <div class="function-item">
+                                <span class="function-name">ESP DISTANCE</span>
+                                <label class="switch">
+                                    <input type="checkbox" data-feature="ESP DISTANCE" onchange="updateApplyButton()">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- GHOST Content (Скрыт по умолчанию) -->
+                        <div class="functions-list tab-content" id="ghostContent">
+                            <!-- GHOST HACK -->
+                            <div class="function-item">
+                                <span class="function-name">GHOST HACK</span>
+                                <label class="switch">
+                                    <input type="checkbox" data-feature="GHOST HACK" onchange="updateApplyButton()">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <!-- WALLHACK -->
+                            <div class="function-item">
+                                <span class="function-name">WALLHACK</span>
+                                <label class="switch">
+                                    <input type="checkbox" data-feature="WALLHACK" onchange="updateApplyButton()">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <!-- NO RECOIL -->
+                            <div class="function-item">
+                                <span class="function-name">NO RECOIL</span>
+                                <label class="switch">
+                                    <input type="checkbox" data-feature="NO RECOIL" onchange="updateApplyButton()">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- OTHERS Content (Скрыт по умолчанию) -->
+                        <div class="functions-list tab-content" id="othersContent">
+                            <!-- MEDKIT RUN -->
+                            <div class="function-item">
+                                <span class="function-name">MEDKIT RUN</span>
+                                <label class="switch">
+                                    <input type="checkbox" data-feature="MEDKIT RUN" onchange="updateApplyButton()">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <!-- FAST RUN x2 -->
+                            <div class="function-item">
+                                <span class="function-name">FAST RUN x2</span>
+                                <label class="switch">
+                                    <input type="checkbox" data-feature="FAST RUN x2" onchange="updateApplyButton()">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <!-- ANTIBAN -->
+                            <div class="function-item">
+                                <span class="function-name">ANTIBAN</span>
+                                <label class="switch">
+                                    <input type="checkbox" data-feature="ANTIBAN" onchange="updateApplyButton()">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
                     </div>
                     
                     <!-- Кнопка APPLY -->
-                    <button class="apply-button">APPLY</button>
+                    <button class="apply-button" id="applyButton" onclick="handleApply()">
+                        APPLY
+                    </button>
                 </div>
+                
+                <!-- Модальное окно для загрузки/инжекции -->
+                <div id="loadingModal">
+                    <div class="modal-content">
+                        <!-- ID и Юзернейм (НОВЫЕ ЭЛЕМЕНТЫ) -->
+                        <div class="modal-info">
+                            <div class="modal-info-text">ID: <span id="modalId">609214735</span></div>
+                            <div class="modal-username" id="modalUsername">dem1n_25</div>
+                        </div>
+                        
+                        <!-- Прогресс-бар -->
+                        <div id="progressBarContainer">
+                            <div id="progressBar"></div>
+                        </div>
+                        
+                        <!-- Сообщение об инжекции -->
+                        <div class="modal-message" id="modalMessage">Processing...</div>
+
+                        <!-- Кнопка OK/CLOSE (Появляется только после завершения) -->
+                        <button class="modal-button" id="modalCloseButton" style="display: none;" onclick="closeModal()">
+                            OK
+                        </button>
+                    </div>
+                </div>
+
 
             </div>
 
@@ -442,31 +686,81 @@
     </div>
 
     <script>
+        // Имитируем получение имени пользователя по ID
+        function getUsernameById(id) {
+            // Очень простая имитация.
+            if (id.length >= 8 && id.includes('0')) {
+                return "ProPlayerX" + id.slice(-3);
+            }
+            // *** ИЗМЕНЕНИЕ ЗДЕСЬ: Установлено новое имя пользователя по умолчанию ***
+            return "dem1n_25";
+        }
+        
+        // Массив сообщений для имитации процесса инжекции
+        const injectionMessages = [
+            "Initializing secure connection...",
+            "Validating user credentials...",
+            "Bypassing anticheat module...",
+            "Injecting core engine files...",
+            "Patching game memory...",
+            "Running final checks..."
+        ];
+
+        // Функция для обновления состояния кнопки APPLY (красный/серый)
+        function updateApplyButton() {
+            const applyButton = document.getElementById('applyButton');
+            // Проверяем, есть ли хотя бы один включенный (checked) переключатель ВО ВСЕХ ВКЛАДКАХ
+            const anySwitchChecked = document.querySelectorAll('#stage2 input[type="checkbox"]:checked:not([disabled])').length > 0;
+
+            if (anySwitchChecked) {
+                // Если есть включенные, делаем кнопку красной и активной
+                applyButton.classList.add('active');
+                applyButton.disabled = false;
+            } else {
+                // Если все выключены, делаем кнопку серой и неактивной
+                applyButton.classList.remove('active');
+                applyButton.disabled = true;
+            }
+        }
+        
         // Функция для обработки нажатия кнопки "CONTINUE"
         function handleContinue() {
             const stage1 = document.getElementById('stage1');
             const stage2 = document.getElementById('stage2');
             const input = document.getElementById('userIdInput');
             const displayedId = document.getElementById('displayedId');
+            const displayedUsername = document.getElementById('displayedUsername');
             const id = input.value.trim();
             const button = document.querySelector('.continue-button');
 
             // Проверяем, что ID имеет не менее 6 символов
             if (id.length >= 6) { 
                 // Имитация успешного действия
-                button.textContent = 'ACCESS GRANTED...';
+                const username = getUsernameById(id);
+                
+                // Устанавливаем текст без многоточия
+                button.textContent = 'ACCESS GRANTED'; 
                 button.style.backgroundColor = 'green';
                 button.style.boxShadow = '0 0 15px rgba(0, 255, 0, 0.6)';
                 input.disabled = true;
 
                 // Задержка перед переходом на Stage 2
                 setTimeout(() => {
-                    // 1. Обновляем отображаемый ID на Stage 2
+                    // 1. Обновляем отображаемый ID и Username на Stage 2
                     displayedId.textContent = id; 
+                    displayedUsername.textContent = username;
                     
                     // 2. Переключаем этапы
                     stage1.style.display = 'none';
                     stage2.style.display = 'flex';
+                    
+                    // 3. Убедимся, что мы на AIMBOT и обновляем состояние кнопки APPLY
+                    showTab('aimbot');
+                    
+                    // Возвращаем исходный текст кнопки на всякий случай
+                    button.textContent = 'CONTINUE'; 
+                    button.style.backgroundColor = 'red';
+                    button.style.boxShadow = '0 0 15px rgba(255, 0, 0, 0.6)';
                 }, 1000);
                 
             } else {
@@ -489,6 +783,124 @@
                 }, 1500);
             }
         }
+
+        // Функция для переключения вкладок
+        function showTab(tabName) {
+            // 1. Скрыть весь контент вкладок
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.style.display = 'none';
+            });
+
+            // 2. Деактивировать все обертки вкладок (сбросить стили)
+            document.querySelectorAll('.tab-wrapper').forEach(wrapper => {
+                wrapper.classList.remove('active');
+            });
+
+            // 3. Активировать выбранный контент и обертку
+            const targetContent = document.getElementById(tabName + 'Content');
+            const targetWrapper = document.querySelector(`.tab-wrapper[data-tab="${tabName}"]`);
+            
+            if (targetContent && targetWrapper) {
+                targetContent.style.display = 'block';
+                targetWrapper.classList.add('active');
+            }
+
+            // 4. Обновляем состояние кнопки APPLY, чтобы она отражала текущие активные функции.
+            updateApplyButton();
+        }
+        
+        // ===================================
+        // ФУНКЦИИ МОДАЛЬНОГО ОКНА И ИНЖЕКЦИИ
+        // ===================================
+
+        function getActiveFeaturesCount() {
+            return document.querySelectorAll('#stage2 input[type="checkbox"]:checked').length;
+        }
+
+        function handleApply() {
+            const applyButton = document.getElementById('applyButton');
+            if (!applyButton.classList.contains('active')) {
+                return; // Не делаем ничего, если кнопка неактивна
+            }
+            
+            const activeCount = getActiveFeaturesCount();
+            if (activeCount === 0) {
+                return; 
+            }
+
+            const modal = document.getElementById('loadingModal');
+            const message = document.getElementById('modalMessage');
+            const progressBar = document.getElementById('progressBar');
+            const closeButton = document.getElementById('modalCloseButton');
+            const modalId = document.getElementById('modalId');
+            const modalUsername = document.getElementById('modalUsername');
+            
+            // Получаем текущие ID и Username из Stage 2
+            const currentId = document.getElementById('displayedId').textContent;
+            const currentUsername = document.getElementById('displayedUsername').textContent;
+
+            // Обновляем данные в модальном окне
+            modalId.textContent = currentId;
+            modalUsername.textContent = currentUsername;
+
+            // Сброс и инициализация
+            modal.style.display = 'flex';
+            progressBar.style.width = '0%';
+            closeButton.style.display = 'none';
+            message.textContent = 'Preparing injection...';
+            
+            let currentStep = 0;
+            const stepDuration = 350; // Уменьшим длительность для более быстрого эффекта
+            
+            // Получаем список названий активных функций
+            const activeFeatures = Array.from(document.querySelectorAll('#stage2 input[type="checkbox"]:checked'))
+                                          .map(checkbox => checkbox.getAttribute('data-feature'));
+
+            const allSteps = injectionMessages.concat(activeFeatures.map(f => `Injecting ${f}...`));
+
+
+            // Имитация цикла инжекции
+            function injectStep() {
+                if (currentStep < allSteps.length) {
+                    // Обновляем сообщение
+                    message.textContent = allSteps[currentStep];
+                    
+                    // Обновляем прогресс-бар
+                    const progress = ((currentStep + 1) / allSteps.length) * 100;
+                    progressBar.style.width = progress + '%';
+                    
+                    currentStep++;
+                    setTimeout(injectStep, stepDuration);
+                } else {
+                    // Завершение инжекции
+                    progressBar.style.width = '100%';
+                    
+                    // Финальное сообщение
+                    // *** ИЗМЕНЕНИЕ ЗДЕСЬ: Сообщение "Successfully applied" перенесено на вторую строку ***
+                    message.innerHTML = `<span style="color: lightgreen;">All functions activated!</span><br>Successfully applied ${activeCount} features!`;
+                    
+                    // Показываем кнопку OK
+                    setTimeout(() => {
+                        closeButton.style.display = 'block';
+                    }, 500);
+                }
+            }
+
+            // Начинаем процесс через короткую задержку
+            setTimeout(injectStep, 500);
+        }
+
+        function closeModal() {
+            document.getElementById('loadingModal').style.display = 'none';
+        }
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Убедимся, что по умолчанию активна вкладка AIMBOT
+            showTab('aimbot');
+            // При загрузке страницы проверяем состояние переключателей для кнопки APPLY
+            updateApplyButton();
+        });
     </script>
 </body>
 </html>
