@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Shop Affiliate Demo</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Custom style configuration for Inter font and theme colors -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        :root {
+            --accent-red: #FE2C55;
+            --logo-red: #FE2C55;
+            --logo-cyan: #25F4EE;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Cosmic Gradient: Dark Blue to Violet/Purple */
+            background: linear-gradient(135deg, #0f0a3e 0%, #4a00e0 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Use min-h-screen to ensure full screen height on all devices */
+            min-height: 100vh;
+            /* Remove main scrollbar */
+            overflow: hidden; 
+            position: relative;
+        }
+
+        /* Styling for the background pattern */
+        .background-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.3;
+            background-image: radial-gradient(circle, #8b5cf6 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        /* Confetti particle styling */
+        .confetti {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent-red);
+            opacity: 0;
+            animation: confetti-fall 3s ease-out forwards;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                opacity: 1;
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(100vh) rotate(720deg);
+            }
+        }
+
+        /* Aspect Ratio Container (1080x1300 -> 120.37%) */
+        .aspect-ratio-custom {
+            /* Max width set for typical mobile screen width, but fluid otherwise */
+            width: calc(100% - 60px); 
+            max-width: 40rem; 
+            /* Enforce custom ratio (1300 / 1080 * 100 = 120.3703...) */
+            /* Using the slightly smaller 1080x1300 ratio from previous steps to ensure fit */
+            padding-bottom: 120.37%; 
+            position: relative;
+            margin: 2rem 0;
+            height: 0; 
+            overflow: visible; 
+            /* Media query for smaller mobile screens (e.g., iPhone 5/SE might need less margin) */
+            @media (max-width: 400px) {
+                width: calc(100% - 40px);
+            }
+        }
+        
+        .aspect-ratio-custom .inner-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow-y: hidden; 
+            padding: 2.5rem; 
+            display: flex; 
+            flex-direction: column;
+        }
+
+        /* Logo container adjustments: Using Tailwind w-48 (12rem) for better scaling */
+        .logo-container {
+            position: absolute;
+            width: 12rem; /* Initial size W-48 */
+            height: 12rem; /* Initial size H-48 */
+            top: -6rem; /* Adjusted to half of height for perfect centering (12rem / 2 = 6rem) */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+
+            /* Use media queries to scale the logo down on smaller screens, 
+               and maintain the size on larger screens */
+            @media (min-width: 480px) { /* Adjust for larger phones/tablets */
+                width: 20rem; /* Larger size */
+                height: 20rem; 
+                top: -10rem; /* -10rem for 20rem size */
+            }
+            @media (min-width: 768px) { /* Tablet size */
+                width: 24rem; 
+                height: 24rem; 
+                top: -12rem; /* -12rem for 24rem size */
+            }
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Adjust card view to better accommodate the fixed button position */
+        #card-view {
+            padding-bottom: 0; /* Remove padding from card-view itself */
+        }
+
+        /* Custom text shadow for depth */
+        .text-shadow-sm {
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Keyframes for the shake effect (applied during hold) */
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg) scale(1.03); }
+            20% { transform: translate(-1px, -2px) rotate(-1deg) scale(1.03); }
+            40% { transform: translate(-3px, 0px) rotate(1deg) scale(1.03); }
+            60% { transform: translate(3px, 2px) rotate(0deg) scale(1.03); }
+            80% { transform: translate(1px, -1px) rotate(1deg) scale(1.03); }
+            100% { transform: translate(-1px, 2px) rotate(-1deg) scale(1.03); }
+        }
+
+        /* Class applied when the button is being held */
+        .holding-animation {
+            animation: shake 0.15s infinite; /* Continuous, subtle shake */
+            transition: none; /* Disable transition during shake */
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="background-pattern"></div>
+
+<!-- Main Application Container (Custom Aspect Ratio Wrapper) -->
+<div id="app-container" class="aspect-ratio-custom bg-white rounded-[32px] shadow-2xl transition-opacity duration-500 ease-out">
+    
+    <!-- TikTok Logo (Centered and placed absolutely above the card) -->
+    <div class="logo-container">
+        <img 
+            src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg" 
+            alt="TikTok Logo" 
+            class="w-full h-full" 
+            onerror="this.onerror=null; this.src='https://placehold.co/192x192/000000/FFFFFF?text=Logo'" 
+        />
+    </div>
+
+    <div class="inner-content">
+
+        <!-- 1. Eligibility Card View (Initial State) -->
+        <div id="card-view" class="h-full pt-16 flex flex-col justify-between"> 
+            
+            <!-- Top Content Section -->
+            <div class="flex-grow pt-4"> 
+                <!-- Content -->
+                <h1 class="text-5xl md:text-6xl font-extrabold text-black mb-8 md:mb-10 leading-snug text-shadow-sm"> <!-- Responsive text size -->
+                    Earn Commission with TikTok Shop<br>
+                    <span class="inline-block relative"> Affiliate</span>
+                </h1>
+
+                <!-- Eligible Text - increased size and boldness -->
+                <h2 class="text-3xl md:text-4xl font-extrabold text-black mb-10 md:mb-12 text-shadow-sm"> <!-- Responsive text size -->
+                    You are eligible to apply!
+                </h2>
+
+                <!-- Eligibility List -->
+                <div class="space-y-8 md:space-y-10 mb-8 md:mb-10"> <!-- Responsive spacing -->
+                    <!-- Check 1 -->
+                    <div class="flex items-start">
+                        <svg class="w-10 h-10 md:w-12 md:h-12 text-green-500 mr-4 md:mr-5 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"> <!-- Responsive icon size -->
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <!-- Toned down text color and weight, increased size -->
+                        <p class="text-2xl md:text-3xl text-gray-500 font-normal text-shadow-sm"> <!-- Responsive text size -->
+                            Meet our Community Guidelines
+                        </p>
+                    </div>
+                    <!-- Check 2 -->
+                    <div class="flex items-start">
+                        <svg class="w-10 h-10 md:w-12 md:h-12 text-green-500 mr-4 md:mr-5 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"> <!-- Responsive icon size -->
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <!-- Toned down text color and weight, increased size -->
+                        <p class="text-2xl md:text-3xl text-gray-500 font-normal text-shadow-sm"> <!-- Responsive text size -->
+                            Be at least 18 years old
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Apply Button - Pushed to the very bottom -->
+            <div class="w-full pb-4"> 
+                <button id="apply-button" class="w-full py-6 md:py-7 rounded-full font-extrabold text-3xl md:text-4xl text-white uppercase transition duration-200 focus:outline-none" 
+                    style="background-color: var(--logo-red); box-shadow: 0 12px 25px -8px rgba(254, 44, 85, 0.7);"
+                    >
+                    Apply
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 2. Success Animation View (Full Screen, Initially Hidden) -->
+<div id="success-view" class="fixed inset-0 flex flex-col justify-center items-center text-white opacity-0 transition-opacity duration-1000 ease-out pointer-events-none" style="background-color: #0f0a3e; z-index: 10;" onclick="resetApp()">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-32 h-32 mb-6 text-green-400 animate-bounce" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
+    </svg>
+    <h1 class="text-7xl md:text-9xl font-black uppercase tracking-widest text-shadow-lg" style="text-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);">
+        SUCCESS!
+    </h1>
+    <p class="mt-4 text-3xl font-medium">Click anywhere to return.</p>
+</div>
+
+<script>
+    const appContainer = document.getElementById('app-container');
+    const successView = document.getElementById('success-view');
+    const applyButton = document.getElementById('apply-button');
+    // Adjusted HOLD_DURATION to be 2.5 seconds (2500ms) for better user experience,
+    // as 1.2s might be too short to register the shake animation.
+    const HOLD_DURATION = 2500; 
+    let holdTimeout = null;
+    let isHolding = false;
+
+    /**
+     * Function to generate and launch the confetti animation.
+     */
+    function launchConfetti() {
+        // Clear previous confetti
+        successView.querySelectorAll('.confetti').forEach(c => c.remove());
+        
+        const colors = ['#FE2C55', '#25F4EE', '#FFFFFF', '#FFD700', '#00FF00', '#4a00e0'];
+        const count = 200; // Increased count for more dramatic effect
+
+        for (let i = 0; i < count; i++) {
+            const c = document.createElement('div');
+            c.classList.add('confetti');
+            
+            // Random position and color
+            c.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            c.style.left = `${Math.random() * 100}vw`;
+            c.style.top = `-${Math.random() * 50}vh`; // Start much higher
+            
+            // Random duration and delay
+            const duration = 2 + Math.random() * 4; // 2s to 6s
+            const delay = Math.random() * 1.5; // 0s to 1.5s
+            
+            c.style.animationDuration = `${duration}s`;
+            c.style.animationDelay = `${delay}s`;
+            c.style.transform = `rotate(${Math.random() * 720}deg) scale(${0.8 + Math.random() * 0.8})`;
+            
+            successView.appendChild(c);
+            
+            // Remove confetti after animation finishes
+            setTimeout(() => c.remove(), (duration + delay) * 1000);
+        }
+    }
+
+    /**
+     * Toggles the display from the card to the success screen.
+     */
+    function showSuccess() {
+        if (isHolding) {
+            isHolding = false;
+            // 1. Hide the card container
+            appContainer.style.opacity = '0';
+            appContainer.style.pointerEvents = 'none';
+
+            // 2. Show the success screen after a slight delay
+            setTimeout(() => {
+                // Make success screen visible
+                successView.classList.remove('opacity-0', 'pointer-events-none');
+                successView.classList.add('opacity-100', 'pointer-events-auto');
+                
+                // Launch the confetti animation
+                launchConfetti();
+
+                // Reset button appearance after success
+                resetButtonAppearance();
+
+            }, 300); // Transition time
+        }
+    }
+
+    /**
+     * Resets the application state back to the initial card view.
+     */
+    function resetApp() {
+        // 1. Hide the success screen
+        successView.classList.remove('opacity-100', 'pointer-events-auto');
+        successView.classList.add('opacity-0', 'pointer-events-none');
+
+        // 2. Show the card container after a slight delay
+        setTimeout(() => {
+            appContainer.style.opacity = '1';
+            appContainer.style.pointerEvents = 'auto';
+        }, 300);
+    }
+    
+    /**
+     * Updates the button appearance during the hold state.
+     */
+    function updateButtonAppearance(isProgressing = false) {
+        if (isProgressing) {
+            applyButton.textContent = 'HOLDING...';
+            applyButton.classList.add('holding-animation');
+            // Add a pulsing box-shadow effect to simulate progress
+            applyButton.style.boxShadow = `
+                0 0 0 5px rgba(254, 44, 85, 0.4),
+                0 12px 25px -8px rgba(254, 44, 85, 0.7)
+            `;
+        } else {
+            resetButtonAppearance();
+        }
+    }
+
+    /**
+     * Resets the button appearance to its default state.
+     */
+    function resetButtonAppearance() {
+        applyButton.textContent = 'APPLY';
+        applyButton.classList.remove('holding-animation');
+        applyButton.style.boxShadow = `0 12px 25px -8px rgba(254, 44, 85, 0.7)`;
+        applyButton.style.transform = 'scale(1)'; // Ensure scale is reset
+    }
+
+    /**
+     * Handles the start of the button press (mousedown or touchstart).
+     */
+    function startHold() {
+        if (!isHolding) {
+            isHolding = true;
+            updateButtonAppearance(true);
+            
+            // Set a timeout to trigger showSuccess if held long enough
+            holdTimeout = setTimeout(() => {
+                showSuccess();
+            }, HOLD_DURATION);
+        }
+    }
+
+    /**
+     * Handles the end of the button press (mouseup or touchend).
+     */
+    function endHold() {
+        if (isHolding) {
+            clearTimeout(holdTimeout);
+            isHolding = false;
+            
+            // Only reset appearance if success wasn't triggered
+            if (successView.style.opacity === '0' || successView.style.opacity === '') {
+                resetButtonAppearance();
+            }
+        }
+    }
+
+    // --- Event Listeners Setup ---
+    
+    // Desktop events
+    applyButton.addEventListener('mousedown', startHold);
+    document.addEventListener('mouseup', endHold); // Listen on document to handle drag off button
+
+    // Mobile/Touch events
+    applyButton.addEventListener('touchstart', (e) => {
+        e.preventDefault(); // Prevent accidental scroll/zoom
+        startHold();
+    });
+    document.addEventListener('touchend', endHold);
+    
+</script>
+</body>
+</html>
