@@ -26,7 +26,7 @@
             /* Высота будет установлена в JS (vhs-height) */
             max-width: 100%;
             background-color: black; 
-            overflow-y: hidden; /* Скрываем общий скролл, скролл только внутри списка функций */
+            overflow-y: auto; /* ИЗМЕНЕНИЕ: Разрешаем общий скролл, если контент не помещается */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -151,9 +151,8 @@
             flex-direction: column;
             align-items: center;
             padding: 20px 0;
-            flex-grow: 1; /* Занимает все оставшееся место */
-            /* Важно: overflow: hidden нужен, чтобы flex-grow: 1 у .functions-list-container работал корректно */
-            overflow: hidden; 
+            /* УБРАНО: flex-grow: 1; (Больше не растягиваем принудительно) */
+            /* УБРАНО: overflow: hidden; (Больше не прячем) */
         }
        
         .stage2-profile-area {
@@ -187,7 +186,7 @@
             font-size: 1.3rem;
             font-weight: bold;
             margin-bottom: 25px;
-            margin-top: 0;
+            margin-top: -15px; /* Сдвинули вверх */
             flex-shrink: 0; /* Не сжиматься */
         }
 
@@ -263,8 +262,9 @@
         .functions-list-container {
             width: 90%;
             max-width: 400px;
-            flex-grow: 1; /* Занимает все доступное пространство */
-            overflow-y: auto; /* Позволяем скроллить только этот блок */
+            /* УБРАНО: flex-grow: 1; (Высота теперь автоматическая) */
+            /* УБРАНО: overflow-y: auto; (Больше нет внутреннего скролла) */
+            height: auto; /* Добавлено для ясности */
             background-color: #0a0a0a; 
             border-radius: 8px;
             padding: 10px 20px;
