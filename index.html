@@ -3,61 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Макет iPhone 16 Pro Max с плашкой</title>
+    <title>Панель FFH4X - Полный экран</title>
     <!-- Подключение Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
     <style>
+        /* Сброс стилей для полного экрана */
         body {
-            background-color: #1f2937; /* Темный фон для лучшего отображения макета */
+            background-color: black; /* Темный фон для лучшего отображения приложения */
             display: flex;
-            align-items: center;
+            align-items: flex-start; /* Начинаем сверху */
             justify-content: center;
             min-height: 100vh;
             margin: 0;
+            overflow-y: auto; /* Разрешаем скроллинг контента */
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Убираем макет телефона, делаем контейнер приложения полноэкранным */
+        .app-container {
+            width: 100vw; 
+            height: 100vh;
+            max-width: 100%;
+            max-height: 100%;
+            background-color: black; 
             overflow: hidden; 
-        }
-
-        /* Общая стилизация для макета телефона */
-        .iphone-body {
-            /* Фиксированный размер макета, который масштабируется на мобильных устройствах */
-            width: 320px; 
-            height: 690px; 
-            background-color: black; 
-            border: 5px solid #333; 
-            border-radius: 3.2rem; 
-            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.7); 
-            position: relative;
-            overflow: hidden;
-        }
-
-        .iphone-screen {
-            width: calc(100% - 10px); 
-            height: calc(100% - 10px);
-            background-color: black; 
-            border-radius: 2.8rem; 
-            position: absolute;
-            top: 5px;
-            left: 5px;
-            overflow: hidden;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start; 
-            padding-top: 5px; 
+        }
+        
+        /* Скрываем элементы макета iPhone, которые больше не нужны */
+        .iphone-body, .iphone-screen, .dynamic-island, .side-button {
+            display: none !important;
         }
 
-        .dynamic-island {
-            width: 60px; 
-            height: 16px; 
-            background-color: black;
-            border-radius: 8px;
-            position: absolute;
-            top: 10px; 
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 10;
-        }
 
-        /* Стиль для приложения */
+        /* Стиль для приложения (Теперь это основной контейнер контента) */
         .app-panel {
             width: 100%;
             height: 100%;
@@ -65,8 +45,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding-top: 35px; /* Сдвиг вверх на 5px (было 40px) */
-            position: relative; /* Для позиционирования модального окна */
+            padding-top: 0; /* Убираем лишний отступ */
+            position: relative; 
         }
         
         .panel-header {
@@ -74,9 +54,10 @@
             background-color: red; 
             color: white;
             text-align: center;
-            padding: 10px 0;
-            font-size: 1.2rem;
+            padding: 15px 0; /* Увеличенный padding для лучшего вида */
+            font-size: 1.4rem;
             font-weight: bold;
+            flex-shrink: 0; /* Не позволяет сжиматься */
         }
 
         /* Стиль для Этапа 1 (Ввод ID) */
@@ -85,12 +66,12 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            flex-grow: 1; /* Занимает доступное пространство */
+            flex-grow: 1; 
         }
 
         /* Размер иконки 90x90px */
         .profile-icon {
-            margin-top: 40px;
+            margin-top: 80px; /* Увеличенный отступ сверху */
             width: 90px; 
             height: 90px; 
             border-radius: 50%;
@@ -106,10 +87,11 @@
 
         .id-input-wrapper {
             width: 90%;
+            max-width: 400px; /* Ограничение ширины на больших экранах */
             background-color: #0a0a0a; 
             border-radius: 12px;
-            padding: 25px 15px; 
-            margin-top: 40px; 
+            padding: 30px 20px; /* Увеличенный padding */
+            margin-top: 60px; /* Увеличенный отступ сверху */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -119,8 +101,8 @@
         
         .id-input-wrapper .enter-id-text {
             color: white;
-            font-size: 1.1rem;
-            margin-bottom: 20px; 
+            font-size: 1.2rem;
+            margin-bottom: 25px; 
             font-weight: bold; 
         }
 
@@ -129,11 +111,11 @@
             background-color: black;
             border: 2px solid red; 
             border-radius: 8px;
-            padding: 12px 15px;
+            padding: 15px; /* Увеличенный padding */
             color: white; 
-            font-size: 1rem;
+            font-size: 1.1rem;
             text-align: center;
-            margin-bottom: 20px; 
+            margin-bottom: 25px; 
             box-shadow: 0 0 2px red, inset 0 0 2px red; 
             outline: none; 
             transition: border-color 0.2s, box-shadow 0.2s;
@@ -147,9 +129,9 @@
             width: 100%; 
             background-color: red; 
             color: white;
-            padding: 15px 0;
+            padding: 18px 0; /* Увеличенный padding */
             border-radius: 8px;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: bold;
             cursor: pointer;
             box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
@@ -164,10 +146,11 @@
         /* --- Стили для Этапа 2 (Settings Panel) --- */
         #stage2 {
             width: 100%;
-            display: none; /* Скрыто по умолчанию */
+            max-width: 500px; /* Ограничение ширины контента Stage 2 */
+            display: none; 
             flex-direction: column;
             align-items: center;
-            padding: 10px 0;
+            padding: 20px 0;
             flex-grow: 1;
         }
         
@@ -176,10 +159,10 @@
             flex-direction: column;
             align-items: center;
             width: 100%;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
         .stage2-profile-area .profile-icon {
-            margin-top: 0; 
+            margin-top: 10px; /* Уменьшаем отступ, так как нет рамки */
         }
         .profile-texts {
             margin-top: 15px;
@@ -187,21 +170,21 @@
             color: white;
         }
         .id-display {
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: bold;
             color: #ccc;
         }
         .username-display {
-            font-size: 0.9rem;
+            font-size: 1rem;
             color: red;
             font-weight: 500;
         }
         .activation-title {
             color: white;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: bold;
-            margin-bottom: 20px;
-            margin-top: -10px; /* Сдвиг надписи на 10px вверх */
+            margin-bottom: 25px;
+            margin-top: 0;
         }
 
         /* Вкладки (Tabs) */
@@ -223,21 +206,21 @@
         }
 
         .tab {
-            padding: 10px 5px;
+            padding: 12px 5px; /* Увеличенный padding */
             font-weight: 600;
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             cursor: pointer;
             text-transform: uppercase;
             transition: color 0.2s;
-            color: red; /* Неактивные вкладки красный текст */
+            color: red; 
             background-color: black;
         }
 
         /* Активная вкладка: белый текст на красном фоне */
         .tab-wrapper.active {
             z-index: 20; 
-            margin-bottom: -3px; /* Сдвигает вверх, чтобы перекрыть красную линию контейнера */
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5); /* Слабое свечение */
+            margin-bottom: -3px; 
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5); 
         }
 
         .tab-wrapper.active .tab {
@@ -250,17 +233,19 @@
         /* Кнопка APPLY */
         .apply-button {
             width: 90%; 
-            background-color: #333; /* Темный фон по умолчанию (неактивный) */
+            max-width: 400px;
+            background-color: #333; 
             color: white;
-            padding: 10px 0; 
+            padding: 15px 0; /* Увеличенный padding */
             border-radius: 8px;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: bold;
             cursor: pointer;
             transition: background-color 0.2s, box-shadow 0.2s;
             border: none;
-            margin-top: -10px; 
-            margin-bottom: 15px;
+            margin-top: 10px; /* Отступ сверху */
+            margin-bottom: 20px;
+            flex-shrink: 0; 
         }
         /* Стиль для активной кнопки APPLY (красный) */
         .apply-button.active {
@@ -273,22 +258,25 @@
         /* Список функций и переключатели */
         .functions-list-container {
             width: 90%;
+            max-width: 400px;
             flex-grow: 1; 
             overflow-y: auto; 
             padding-bottom: 20px;
+            background-color: #0a0a0a; /* Небольшой фон для списка */
+            border-radius: 8px;
+            padding: 10px 20px;
+            box-shadow: inset 0 0 5px rgba(255, 0, 0, 0.4);
         }
         .functions-list {
-            /* Контент списка внутри контейнера */
             width: 100%;
         }
 
         /* Стили для контента вкладок */
         .tab-content {
-            display: none; /* По умолчанию все скрыто */
+            display: none; 
         }
-        /* Активная вкладка (должна быть видима) */
         #aimbotContent {
-            display: block; /* AIMBOT активен по умолчанию */
+            display: block; 
         }
 
         .function-item {
@@ -298,7 +286,7 @@
             padding: 15px 0;
             border-bottom: 1px solid #1a1a1a; 
             color: white;
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: 500;
         }
         .function-item:last-child {
@@ -314,6 +302,7 @@
             display: inline-block;
             width: 50px;
             height: 28px;
+            flex-shrink: 0;
         }
         .switch input {
             opacity: 0;
@@ -342,7 +331,53 @@
             transition: .4s;
             border-radius: 50%;
         }
-        /* Стили для включенного переключателя (красный) */
+        .modal-content {
+            width: 85%;
+            max-width: 300px; /* Немного увеличим размер модального окна */
+            background-color: #1a1a1a; 
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            border: 3px solid red;
+            box-shadow: 0 0 35px rgba(255, 0, 0, 1.5); 
+        }
+
+        .modal-info {
+            margin-bottom: 20px;
+        }
+        
+        .modal-info-text {
+            color: #ccc;
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+        
+        .modal-username {
+            color: red;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .modal-message {
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            min-height: 22px;
+        }
+        
+        /* Индикатор загрузки (Progress Bar) */
+        #progressBarContainer {
+            width: 100%;
+            background-color: #333;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            height: 12px;
+            overflow: hidden;
+            border: 1px solid red;
+        }
+        /* Стиль для включенного переключателя (красный) */
         input:checked + .slider {
             background-color: red; 
         }
@@ -353,13 +388,13 @@
         
         /* --- МОДАЛЬНОЕ ОКНО (Modal) --- */
         #loadingModal {
-            position: absolute;
+            position: fixed; /* Используем fixed для полноэкранного модального окна */
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.8); /* Затемнение фона */
-            display: none; /* Скрыто по умолчанию */
+            background-color: rgba(0, 0, 0, 0.8); 
+            display: none; 
             justify-content: center;
             align-items: center;
             z-index: 50; 
@@ -368,50 +403,16 @@
 
         .modal-content {
             width: 85%;
-            max-width: 280px;
+            max-width: 300px; 
             background-color: #1a1a1a; 
             border-radius: 12px;
-            padding: 20px;
+            padding: 25px;
             text-align: center;
             border: 3px solid red;
-            box-shadow: 0 0 35px rgba(255, 0, 0, 1.5); /* Более сильное Красное свечение */
-        }
-
-        .modal-info {
-            margin-bottom: 15px;
+            box-shadow: 0 0 35px rgba(255, 0, 0, 1.5); 
         }
         
-        .modal-info-text {
-            color: #ccc;
-            font-size: 0.9rem;
-            margin-bottom: 5px;
-        }
-        
-        .modal-username {
-            color: red;
-            font-size: 1.1rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        
-        .modal-message {
-            color: white;
-            font-size: 1rem;
-            font-weight: bold;
-            margin-bottom: 15px;
-            min-height: 20px;
-        }
-        
-        /* Индикатор загрузки (Progress Bar) */
-        #progressBarContainer {
-            width: 100%;
-            background-color: #333;
-            border-radius: 5px;
-            margin-bottom: 15px;
-            height: 10px;
-            overflow: hidden;
-            border: 1px solid red;
-        }
+        /* ... (Остальные стили модального окна) ... */
 
         #progressBar {
             height: 100%;
@@ -425,9 +426,10 @@
             width: 100%;
             background-color: red;
             color: white;
-            padding: 10px 0;
+            padding: 12px 0;
             border-radius: 6px;
             font-weight: bold;
+            font-size: 1.1rem;
             cursor: pointer;
             border: none;
             transition: background-color 0.2s;
@@ -436,253 +438,237 @@
             background-color: #cc0000;
         }
 
-        /* Медиа-запрос для лучшей адаптивности на маленьких экранах */
-        @media (max-width: 600px) {
-            .iphone-body {
-                width: 90vw;
-                height: calc(90vw * 690 / 320); 
-                max-height: 95vh;
-                max-width: 350px;
-            }
-        }
+        /* Убираем медиа-запрос, так как теперь всегда полный экран */
     </style>
 </head>
 
 <body>
-    <!-- МАКЕТ ТЕЛЕФОНА --><div class="iphone-body">
-        <!-- Кнопки по бокам --><div class="side-button action-button"></div>
-        <div class="side-button volume-up"></div>
-        <div class="side-button volume-down"></div>
-        <div class="side-button power-button"></div>
-        
-        <div class="iphone-screen">
-            <div class="dynamic-island"></div>
+    <!-- НОВЫЙ КОНТЕЙНЕР ДЛЯ ПОЛНОГО ЭКРАНА -->
+    <div class="app-container">
+        <!-- Приложение с плашкой (бывший app-panel) --><div class="app-panel">
+            <div class="panel-header">PAINEL FFH4X</div>
+            
+            <!-- ЭТАП 1: Ввод ID -->
+            <div id="stage1">
+                <div class="profile-icon">
+                    <img src="https://image.winudf.com/v2/image1/Y29tLmZmaDR4LmluamVjdG9yLmhhY2tfaWNvbl8xNjQzMjQ3NDQ3XzA4OQ/icon.webp?w=90&fakeurl=1&type=.webp" 
+                        alt="Profile Icon" 
+                        onerror="this.onerror=null; this.src='https://placehold.co/90x90/FF0000/000000?text=H4X%0ASkull';">
+                </div>
 
-            <!-- Приложение с плашкой --><div class="app-panel">
-                <div class="panel-header">PAINEL FFH4X</div>
-                
-                <!-- ЭТАП 1: Ввод ID -->
-                <div id="stage1">
+                <div class="id-input-wrapper">
+                    <div class="enter-id-text"><b>Enter your ID:</b></div>
+                    <input
+                        type="text"
+                        id="userIdInput"
+                        class="id-input-container"
+                        placeholder="Your ID"
+                        maxlength="12"
+                        minlength="6" 
+                    >
+                    <div class="continue-button" onclick="handleContinue()">CONTINUE</div>
+                </div>
+            </div>
+
+            <!-- ЭТАП 2: Панель настроек (Скрыта по умолчанию) -->
+            <div id="stage2">
+                <!-- Профиль/ID -->
+                <div class="stage2-profile-area">
                     <div class="profile-icon">
                         <img src="https://image.winudf.com/v2/image1/Y29tLmZmaDR4LmluamVjdG9yLmhhY2tfaWNvbl8xNjQzMjQ3NDQ3XzA4OQ/icon.webp?w=90&fakeurl=1&type=.webp" 
                             alt="Profile Icon" 
                             onerror="this.onerror=null; this.src='https://placehold.co/90x90/FF0000/000000?text=H4X%0ASkull';">
                     </div>
-
-                    <div class="id-input-wrapper">
-                        <div class="enter-id-text"><b>Enter your ID:</b></div>
-                        <input
-                            type="text"
-                            id="userIdInput"
-                            class="id-input-container"
-                            placeholder="Your ID"
-                            maxlength="12"
-                            minlength="6" 
-                        >
-                        <div class="continue-button" onclick="handleContinue()">CONTINUE</div>
+                    <div class="profile-texts">
+                        <div class="id-display">ID: <span id="displayedId">609214735</span></div>
+                        <div class="username-display" id="displayedUsername">dem1n_25</div>
                     </div>
                 </div>
 
-                <!-- ЭТАП 2: Панель настроек (Скрыта по умолчанию) -->
-                <div id="stage2">
-                    <!-- Профиль/ID -->
-                    <div class="stage2-profile-area">
-                        <div class="profile-icon">
-                            <img src="https://image.winudf.com/v2/image1/Y29tLmZmaDR4LmluamVjdG9yLmhhY2tfaWNvbl8xNjQzMjQ3NDQ3XzA4OQ/icon.webp?w=90&fakeurl=1&type=.webp" 
-                                alt="Profile Icon" 
-                                onerror="this.onerror=null; this.src='https://placehold.co/90x90/FF0000/000000?text=H4X%0ASkull';">
-                        </div>
-                        <div class="profile-texts">
-                            <div class="id-display">ID: <span id="displayedId">609214735</span></div>
-                            <div class="username-display" id="displayedUsername">dem1n_25</div>
-                        </div>
+                <div class="activation-title">Activate Functions</div>
+
+                <!-- Вкладки (Tabs) -->
+                <div class="tabs-container" id="tabsContainer">
+                    <div class="tab-wrapper active" data-tab="aimbot" onclick="showTab('aimbot')">
+                        <div class="tab">AIMBOT</div>
                     </div>
-
-                    <div class="activation-title">Activate Functions</div>
-
-                    <!-- Вкладки (Tabs) -->
-                    <div class="tabs-container" id="tabsContainer">
-                        <div class="tab-wrapper active" data-tab="aimbot" onclick="showTab('aimbot')">
-                            <div class="tab">AIMBOT</div>
-                        </div>
-                        <div class="tab-wrapper" data-tab="esp" onclick="showTab('esp')">
-                            <div class="tab">ESP</div>
-                        </div>
-                        <div class="tab-wrapper" data-tab="ghost" onclick="showTab('ghost')">
-                            <div class="tab">GHOST</div>
-                        </div>
-                        <div class="tab-wrapper" data-tab="others" onclick="showTab('others')">
-                            <div class="tab">OTHERS</div>
-                        </div>
+                    <div class="tab-wrapper" data-tab="esp" onclick="showTab('esp')">
+                        <div class="tab">ESP</div>
                     </div>
-                    
-                    <!-- Контейнер для списков функций -->
-                    <div class="functions-list-container" id="functionsListContainer">
-                        
-                        <!-- AIMBOT Content (По умолчанию активен) -->
-                        <div class="functions-list tab-content" id="aimbotContent">
-                            <!-- AIMBOT -->
-                            <div class="function-item">
-                                <span class="function-name">AIMBOT</span>
-                                <label class="switch">
-                                    <input type="checkbox" data-feature="AIMBOT" onchange="updateApplyButton()">
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-                            <!-- AIMLOCK -->
-                            <div class="function-item">
-                                <span class="function-name">AIMLOCK</span>
-                                <label class="switch">
-                                    <input type="checkbox" data-feature="AIMLOCK" onchange="updateApplyButton()">
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-                            <!-- AUTO HEADSHOT -->
-                            <div class="function-item">
-                                <span class="function-name">AUTO HEADSHOT</span>
-                                <label class="switch">
-                                    <input type="checkbox" data-feature="AUTO HEADSHOT" onchange="updateApplyButton()">
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-                            <!-- AIM FOV (360) -->
-                            <div class="function-item">
-                                <span class="function-name">AIM FOV (360)</span>
-                                <label class="switch">
-                                    <input type="checkbox" data-feature="AIM FOV (360)" onchange="updateApplyButton()">
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <!-- ESP Content (Скрыт по умолчанию) -->
-                        <div class="functions-list tab-content" id="espContent">
-                            <!-- ESP FIRE -->
-                            <div class="function-item">
-                                <span class="function-name">ESP FIRE</span>
-                                <label class="switch">
-                                    <input type="checkbox" data-feature="ESP FIRE" onchange="updateApplyButton()">
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-                            <!-- ESP LINE -->
-                            <div class="function-item">
-                                <span class="function-name">ESP LINE</span>
-                                <label class="switch">
-                                    <input type="checkbox" data-feature="ESP LINE" onchange="updateApplyButton()">
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-                            <!-- ESP NAME -->
-                            <div class="function-item">
-                                <span class="function-name">ESP NAME</span>
-                                <label class="switch">
-                                    <input type="checkbox" data-feature="ESP NAME" onchange="updateApplyButton()">
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-                            <!-- ESP DISTANCE -->
-                            <div class="function-item">
-                                <span class="function-name">ESP DISTANCE</span>
-                                <label class="switch">
-                                    <input type="checkbox" data-feature="ESP DISTANCE" onchange="updateApplyButton()">
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <!-- GHOST Content (Скрыт по умолчанию) -->
-                        <div class="functions-list tab-content" id="ghostContent">
-                            <!-- GHOST HACK -->
-                            <div class="function-item">
-                                <span class="function-name">GHOST HACK</span>
-                                <label class="switch">
-                                    <input type="checkbox" data-feature="GHOST HACK" onchange="updateApplyButton()">
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-                            <!-- WALLHACK -->
-                            <div class="function-item">
-                                <span class="function-name">WALLHACK</span>
-                                <label class="switch">
-                                    <input type="checkbox" data-feature="WALLHACK" onchange="updateApplyButton()">
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-                            <!-- NO RECOIL -->
-                            <div class="function-item">
-                                <span class="function-name">NO RECOIL</span>
-                                <label class="switch">
-                                    <input type="checkbox" data-feature="NO RECOIL" onchange="updateApplyButton()">
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <!-- OTHERS Content (Скрыт по умолчанию) -->
-                        <div class="functions-list tab-content" id="othersContent">
-                            <!-- MEDKIT RUN -->
-                            <div class="function-item">
-                                <span class="function-name">MEDKIT RUN</span>
-                                <label class="switch">
-                                    <input type="checkbox" data-feature="MEDKIT RUN" onchange="updateApplyButton()">
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-                            <!-- FAST RUN x2 -->
-                            <div class="function-item">
-                                <span class="function-name">FAST RUN x2</span>
-                                <label class="switch">
-                                    <input type="checkbox" data-feature="FAST RUN x2" onchange="updateApplyButton()">
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-                            <!-- ANTIBAN -->
-                            <div class="function-item">
-                                <span class="function-name">ANTIBAN</span>
-                                <label class="switch">
-                                    <input type="checkbox" data-feature="ANTIBAN" onchange="updateApplyButton()">
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-                        </div>
-
+                    <div class="tab-wrapper" data-tab="ghost" onclick="showTab('ghost')">
+                        <div class="tab">GHOST</div>
                     </div>
-                    
-                    <!-- Кнопка APPLY -->
-                    <button class="apply-button" id="applyButton" onclick="handleApply()">
-                        APPLY
-                    </button>
+                    <div class="tab-wrapper" data-tab="others" onclick="showTab('others')">
+                        <div class="tab">OTHERS</div>
+                    </div>
                 </div>
                 
-                <!-- Модальное окно для загрузки/инжекции -->
-                <div id="loadingModal">
-                    <div class="modal-content">
-                        <!-- ID и Юзернейм (НОВЫЕ ЭЛЕМЕНТЫ) -->
-                        <div class="modal-info">
-                            <div class="modal-info-text">ID: <span id="modalId">609214735</span></div>
-                            <div class="modal-username" id="modalUsername">dem1n_25</div>
+                <!-- Контейнер для списков функций -->
+                <div class="functions-list-container" id="functionsListContainer">
+                    
+                    <!-- AIMBOT Content (По умолчанию активен) -->
+                    <div class="functions-list tab-content" id="aimbotContent">
+                        <!-- AIMBOT -->
+                        <div class="function-item">
+                            <span class="function-name">AIMBOT</span>
+                            <label class="switch">
+                                <input type="checkbox" data-feature="AIMBOT" onchange="updateApplyButton()">
+                                <span class="slider"></span>
+                            </label>
                         </div>
-                        
-                        <!-- Прогресс-бар -->
-                        <div id="progressBarContainer">
-                            <div id="progressBar"></div>
+                        <!-- AIMLOCK -->
+                        <div class="function-item">
+                            <span class="function-name">AIMLOCK</span>
+                            <label class="switch">
+                                <input type="checkbox" data-feature="AIMLOCK" onchange="updateApplyButton()">
+                                <span class="slider"></span>
+                            </label>
                         </div>
-                        
-                        <!-- Сообщение об инжекции -->
-                        <div class="modal-message" id="modalMessage">Processing...</div>
-
-                        <!-- Кнопка OK/CLOSE (Появляется только после завершения) -->
-                        <button class="modal-button" id="modalCloseButton" style="display: none;" onclick="closeModal()">
-                            OK
-                        </button>
+                        <!-- AUTO HEADSHOT -->
+                        <div class="function-item">
+                            <span class="function-name">AUTO HEADSHOT</span>
+                            <label class="switch">
+                                <input type="checkbox" data-feature="AUTO HEADSHOT" onchange="updateApplyButton()">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <!-- AIM FOV (360) -->
+                        <div class="function-item">
+                            <span class="function-name">AIM FOV (360)</span>
+                            <label class="switch">
+                                <input type="checkbox" data-feature="AIM FOV (360)" onchange="updateApplyButton()">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
                     </div>
+
+                    <!-- ESP Content (Скрыт по умолчанию) -->
+                    <div class="functions-list tab-content" id="espContent">
+                        <!-- ESP FIRE -->
+                        <div class="function-item">
+                            <span class="function-name">ESP FIRE</span>
+                            <label class="switch">
+                                <input type="checkbox" data-feature="ESP FIRE" onchange="updateApplyButton()">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <!-- ESP LINE -->
+                        <div class="function-item">
+                            <span class="function-name">ESP LINE</span>
+                            <label class="switch">
+                                <input type="checkbox" data-feature="ESP LINE" onchange="updateApplyButton()">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <!-- ESP NAME -->
+                        <div class="function-item">
+                            <span class="function-name">ESP NAME</span>
+                            <label class="switch">
+                                <input type="checkbox" data-feature="ESP NAME" onchange="updateApplyButton()">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <!-- ESP DISTANCE -->
+                        <div class="function-item">
+                            <span class="function-name">ESP DISTANCE</span>
+                            <label class="switch">
+                                <input type="checkbox" data-feature="ESP DISTANCE" onchange="updateApplyButton()">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- GHOST Content (Скрыт по умолчанию) -->
+                    <div class="functions-list tab-content" id="ghostContent">
+                        <!-- GHOST HACK -->
+                        <div class="function-item">
+                            <span class="function-name">GHOST HACK</span>
+                            <label class="switch">
+                                <input type="checkbox" data-feature="GHOST HACK" onchange="updateApplyButton()">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <!-- WALLHACK -->
+                        <div class="function-item">
+                            <span class="function-name">WALLHACK</span>
+                            <label class="switch">
+                                <input type="checkbox" data-feature="WALLHACK" onchange="updateApplyButton()">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <!-- NO RECOIL -->
+                        <div class="function-item">
+                            <span class="function-name">NO RECOIL</span>
+                            <label class="switch">
+                                <input type="checkbox" data-feature="NO RECOIL" onchange="updateApplyButton()">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- OTHERS Content (Скрыт по умолчанию) -->
+                    <div class="functions-list tab-content" id="othersContent">
+                        <!-- MEDKIT RUN -->
+                        <div class="function-item">
+                            <span class="function-name">MEDKIT RUN</span>
+                            <label class="switch">
+                                <input type="checkbox" data-feature="MEDKIT RUN" onchange="updateApplyButton()">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <!-- FAST RUN x2 -->
+                        <div class="function-item">
+                            <span class="function-name">FAST RUN x2</span>
+                            <label class="switch">
+                                <input type="checkbox" data-feature="FAST RUN x2" onchange="updateApplyButton()">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <!-- ANTIBAN -->
+                        <div class="function-item">
+                            <span class="function-name">ANTIBAN</span>
+                            <label class="switch">
+                                <input type="checkbox" data-feature="ANTIBAN" onchange="updateApplyButton()">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
                 </div>
+                
+                <!-- Кнопка APPLY -->
+                <button class="apply-button" id="applyButton" onclick="handleApply()">
+                    APPLY
+                </button>
+            </div>
+            
+            <!-- Модальное окно для загрузки/инжекции -->
+            <div id="loadingModal">
+                <div class="modal-content">
+                    <!-- ID и Юзернейм -->
+                    <div class="modal-info">
+                        <div class="modal-info-text">ID: <span id="modalId">609214735</span></div>
+                        <div class="modal-username" id="modalUsername">dem1n_25</div>
+                    </div>
+                    
+                    <!-- Прогресс-бар -->
+                    <div id="progressBarContainer">
+                        <div id="progressBar"></div>
+                    </div>
+                    
+                    <!-- Сообщение об инжекции -->
+                    <div class="modal-message" id="modalMessage">Processing...</div>
 
-
+                    <!-- Кнопка OK/CLOSE (Появляется только после завершения) -->
+                    <button class="modal-button" id="modalCloseButton" style="display: none;" onclick="closeModal()">
+                        OK
+                    </button>
+                </div>
             </div>
 
+
         </div>
+
     </div>
 
     <script>
@@ -692,7 +678,7 @@
             if (id.length >= 8 && id.includes('0')) {
                 return "ProPlayerX" + id.slice(-3);
             }
-            // *** ИЗМЕНЕНИЕ ЗДЕСЬ: Установлено новое имя пользователя по умолчанию ***
+            // Имя пользователя по умолчанию
             return "dem1n_25";
         }
         
@@ -761,6 +747,8 @@
                     button.textContent = 'CONTINUE'; 
                     button.style.backgroundColor = 'red';
                     button.style.boxShadow = '0 0 15px rgba(255, 0, 0, 0.6)';
+                    input.disabled = false;
+                    input.value = ""; // Очищаем поле ввода для следующего использования, если потребуется
                 }, 1000);
                 
             } else {
@@ -876,7 +864,6 @@
                     progressBar.style.width = '100%';
                     
                     // Финальное сообщение
-                    // *** ИЗМЕНЕНИЕ ЗДЕСЬ: Сообщение "Successfully applied" перенесено на вторую строку ***
                     message.innerHTML = `<span style="color: lightgreen;">All functions activated!</span><br>Successfully applied ${activeCount} features!`;
                     
                     // Показываем кнопку OK
