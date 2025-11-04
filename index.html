@@ -31,7 +31,7 @@
             flex-direction: column;
             align-items: center;
         }
-        
+       
         /* Скрываем элементы макета iPhone, которые больше не нужны */
         .iphone-body, .iphone-screen, .dynamic-island, .side-button {
             display: none !important;
@@ -49,7 +49,7 @@
             padding-top: 0; 
             position: relative; 
         }
-        
+       
         .panel-header {
             width: 100%;
             background-color: red; 
@@ -98,7 +98,7 @@
             align-items: center;
             box-shadow: 0 0 25px rgba(255, 0, 0, 1.0), inset 0 0 10px rgba(255, 0, 0, 0.8);
         }
-        
+       
         .id-input-wrapper .enter-id-text {
             color: white;
             font-size: 1.2rem;
@@ -147,19 +147,22 @@
         #stage2 {
             width: 100%;
             max-width: 500px; 
-            display: none; 
+            display: none; /* Изначально скрыт */
             flex-direction: column;
             align-items: center;
             padding: 20px 0;
-            flex-grow: 1;
+            flex-grow: 1; /* Занимает все оставшееся место */
+            /* Важно: overflow: hidden нужен, чтобы flex-grow: 1 у .functions-list-container работал корректно */
+            overflow: hidden; 
         }
-        
+       
         .stage2-profile-area {
             display: flex;
             flex-direction: column;
             align-items: center;
             width: 100%;
             margin-bottom: 30px;
+            flex-shrink: 0; /* Не сжиматься */
         }
         .stage2-profile-area .profile-icon {
             margin-top: 10px; 
@@ -185,6 +188,7 @@
             font-weight: bold;
             margin-bottom: 25px;
             margin-top: 0;
+            flex-shrink: 0; /* Не сжиматься */
         }
 
         /* Вкладки (Tabs) */
@@ -199,7 +203,7 @@
             padding-bottom: 0px; 
             flex-shrink: 0;
         }
-        
+       
         .tab-wrapper {
             position: relative;
             flex-grow: 1; 
@@ -230,7 +234,7 @@
             border-radius: 4px 4px 0 0;
             cursor: default;
         }
-        
+       
         /* Кнопка APPLY */
         .apply-button {
             width: 90%; 
@@ -259,13 +263,14 @@
         .functions-list-container {
             width: 90%;
             max-width: 400px;
-            flex-grow: 1; 
+            flex-grow: 1; /* Занимает все доступное пространство */
             overflow-y: auto; /* Позволяем скроллить только этот блок */
-            padding-bottom: 20px;
             background-color: #0a0a0a; 
             border-radius: 8px;
             padding: 10px 20px;
             box-shadow: inset 0 0 5px rgba(255, 0, 0, 0.4);
+            /* Убедимся, что flex-shrink 1 (по умолчанию), чтобы он мог сжиматься */
+            /* Убрали min-height, чтобы flexbox мог сжать его до 0 при необходимости */
         }
         /* Убедимся, что functions-list использует всю доступную ширину контейнера */
         .functions-list {
@@ -288,7 +293,7 @@
         .function-name {
             opacity: 0.9;
         }
-        
+       
         /* Стили для iOS-подобного переключателя (Toggle Switch) */
         .switch {
             position: relative;
@@ -331,7 +336,7 @@
             transform: translateX(22px);
             background-color: white;
         }
-        
+       
         /* --- МОДАЛЬНОЕ ОКНО (Modal) --- */
         #loadingModal {
             position: fixed; 
@@ -357,24 +362,24 @@
             border: 3px solid red;
             box-shadow: 0 0 35px rgba(255, 0, 0, 1.5); 
         }
-        
+       
         .modal-info {
             margin-bottom: 20px;
         }
-        
+       
         .modal-info-text {
             color: #ccc;
             font-size: 1rem;
             margin-bottom: 8px;
         }
-        
+       
         .modal-username {
             color: red;
             font-size: 1.2rem;
             font-weight: bold;
             margin-bottom: 10px;
         }
-        
+       
         .modal-message {
             color: white;
             font-size: 1.1rem;
@@ -382,7 +387,7 @@
             margin-bottom: 20px;
             min-height: 22px;
         }
-        
+       
         /* Индикатор загрузки (Progress Bar) */
         #progressBarContainer {
             width: 100%;
@@ -393,14 +398,14 @@
             overflow: hidden;
             border: 1px solid red;
         }
-        
+       
         #progressBar {
             height: 100%;
             width: 0%;
             background-color: red;
             transition: width 0.2s linear;
         }
-        
+       
         /* Кнопка OK/CLOSE */
         .modal-button {
             width: 100%;
@@ -425,7 +430,7 @@
     <div class="app-container">
         <!-- Приложение с плашкой (бывший app-panel) --><div class="app-panel">
             <div class="panel-header">PAINEL FFH4X</div>
-            
+           
             <!-- ЭТАП 1: Ввод ID -->
             <div id="stage1">
                 <div class="profile-icon">
@@ -480,10 +485,10 @@
                         <div class="tab">OTHERS</div>
                     </div>
                 </div>
-                
+               
                 <!-- Контейнер для списков функций -->
                 <div class="functions-list-container" id="functionsListContainer">
-                    
+                   
                     <!-- AIMBOT Content (По умолчанию активен) -->
                     <div class="functions-list tab-content" id="aimbotContent">
                         <!-- AIMBOT -->
@@ -613,13 +618,13 @@
                     </div>
 
                 </div>
-                
+               
                 <!-- Кнопка APPLY -->
                 <button class="apply-button" id="applyButton" onclick="handleApply()">
                     APPLY
                 </button>
             </div>
-            
+           
             <!-- Модальное окно для загрузки/инжекции -->
             <div id="loadingModal">
                 <div class="modal-content">
@@ -628,12 +633,12 @@
                         <div class="modal-info-text">ID: <span id="modalId">609214735</span></div>
                         <div class="modal-username" id="modalUsername">dem1n_25</div>
                     </div>
-                    
+                   
                     <!-- Прогресс-бар -->
                     <div id="progressBarContainer">
                         <div id="progressBar"></div>
                     </div>
-                    
+                   
                     <!-- Сообщение об инжекции -->
                     <div class="modal-message" id="modalMessage">Processing...</div>
 
@@ -652,53 +657,31 @@
     <script>
         // Функция для корректной установки высоты на мобильных устройствах
         function setViewportHeight() {
-            const vh = window.innerHeight * 0.01;
+            // Устанавливаем --vhs-height в реальную высоту окна
             document.documentElement.style.setProperty('--vhs-height', `${window.innerHeight}px`);
-            document.querySelector('.app-container').style.height = `var(--vhs-height)`;
             
-            // Если находимся на Stage 2, нужно пересчитать высоту functions-list-container
-            if (document.getElementById('stage2').style.display === 'flex') {
-                adjustFunctionsListHeight();
+            // Применяем эту высоту к .app-container
+            const appContainer = document.querySelector('.app-container');
+            if (appContainer) {
+                appContainer.style.height = `var(--vhs-height)`;
             }
+            
+            // ----- УДАЛЕНО -----
+            // Больше нет необходимости вызывать adjustFunctionsListHeight()
+            // CSS (flexbox) теперь сам справляется с этим.
         }
-        
+       
         // Добавляем слушателей событий для установки высоты при загрузке и изменении размера
         window.addEventListener('load', setViewportHeight);
         window.addEventListener('resize', setViewportHeight);
         window.addEventListener('orientationchange', setViewportHeight);
 
 
-        // Функция для динамической настройки высоты списка функций (Stage 2)
-        function adjustFunctionsListHeight() {
-            const container = document.querySelector('.app-container');
-            const panelHeader = document.querySelector('.panel-header');
-            const stage2ProfileArea = document.querySelector('.stage2-profile-area');
-            const activationTitle = document.querySelector('.activation-title');
-            const tabsContainer = document.querySelector('.tabs-container');
-            const applyButton = document.querySelector('.apply-button');
-            const listContainer = document.getElementById('functionsListContainer');
-
-            // Проверка наличия элементов перед расчетом
-            if (!container || !panelHeader || !stage2ProfileArea || !activationTitle || !tabsContainer || !applyButton || !listContainer) {
-                return;
-            }
-
-            // Суммируем высоты всех фиксированных элементов (с учетом margins)
-            const fixedHeight = panelHeader.offsetHeight + 
-                                stage2ProfileArea.offsetHeight + 
-                                activationTitle.offsetHeight + 
-                                tabsContainer.offsetHeight + 
-                                applyButton.offsetHeight + 
-                                (20 + 20) + // Дополнительные padding/margin вокруг Stage 2 (padding: 20px 0 в #stage2 и margin-top/bottom для apply-button)
-                                10; // Небольшой запас
-
-            // Вычисляем оставшуюся высоту
-            const availableHeight = container.offsetHeight - fixedHeight;
-
-            // Устанавливаем минимальную высоту, чтобы listContainer занимал оставшееся пространство
-            listContainer.style.height = Math.max(200, availableHeight) + 'px';
-        }
-        
+        // ----- УДАЛЕНО -----
+        // Функция adjustFunctionsListHeight() была удалена.
+        // CSS (flex-grow: 1 и overflow: auto на .functions-list-container)
+        // является более надежным решением.
+       
         // Имитируем получение имени пользователя по ID
         function getUsernameById(id) {
             // Очень простая имитация.
@@ -708,7 +691,7 @@
             // Имя пользователя по умолчанию
             return "dem1n_25";
         }
-        
+       
         // Массив сообщений для имитации процесса инжекции
         const injectionMessages = [
             "Initializing secure connection...",
@@ -735,7 +718,7 @@
                 applyButton.disabled = true;
             }
         }
-        
+       
         // Функция для обработки нажатия кнопки "CONTINUE"
         function handleContinue() {
             const stage1 = document.getElementById('stage1');
@@ -750,7 +733,7 @@
             if (id.length >= 6) { 
                 // Имитация успешного действия
                 const username = getUsernameById(id);
-                
+               
                 // Устанавливаем текст без многоточия
                 button.textContent = 'ACCESS GRANTED'; 
                 button.style.backgroundColor = 'green';
@@ -762,29 +745,30 @@
                     // 1. Обновляем отображаемый ID и Username на Stage 2
                     displayedId.textContent = id; 
                     displayedUsername.textContent = username;
-                    
+                   
                     // 2. Переключаем этапы
                     stage1.style.display = 'none';
                     stage2.style.display = 'flex';
-                    
+                   
                     // 3. Убедимся, что мы на AIMBOT и обновляем состояние кнопки APPLY
                     showTab('aimbot');
-                    
-                    // Дополнительный вызов для корректировки высоты списка функций
+                   
+                    // 4. (ИЗМЕНЕНО) Вызываем setViewportHeight() на случай, если
+                    //    появление клавиатуры изменило размер окна.
                     setViewportHeight();
-                    
-                    // Возвращаем исходный текст кнопки на всякий случай
+                   
+                    // 5. Возвращаем исходный текст кнопки на всякий случай
                     button.textContent = 'CONTINUE'; 
                     button.style.backgroundColor = 'red';
                     button.style.boxShadow = '0 0 15px rgba(255, 0, 0, 0.6)';
                     input.disabled = false;
                     input.value = ""; 
                 }, 1000);
-                
+               
             } else {
                 // Имитация ошибки или требования ввода
                 const originalText = button.textContent;
-                
+               
                 // Динамическое сообщение об ошибке
                 const errorMessage = (id.length === 0) 
                     ? 'Enter ID first!' 
@@ -793,7 +777,7 @@
                 button.textContent = errorMessage;
                 button.style.backgroundColor = '#8B0000'; // Темно-красный
                 button.style.boxShadow = '0 0 15px rgba(255, 100, 100, 0.8)';
-                
+               
                 setTimeout(() => {
                     button.textContent = originalText;
                     button.style.backgroundColor = 'red';
@@ -818,106 +802,125 @@
             const targetContent = document.getElementById(tabName + 'Content');
             const targetWrapper = document.querySelector(`.tab-wrapper[data-tab="${tabName}"]`);
             
-            if (targetContent && targetWrapper) {
+            if (targetContent) {
                 targetContent.style.display = 'block';
+            }
+            if (targetWrapper) {
                 targetWrapper.classList.add('active');
             }
-
-            // 4. Обновляем состояние кнопки APPLY, чтобы она отражала текущие активные функции.
+            
+            // 4. Обновить состояние кнопки APPLY
             updateApplyButton();
+        }
+
+        // Функция для обработки нажатия кнопки "APPLY"
+        function handleApply() {
+            // 1. Проверяем, активна ли кнопка
+            const applyButton = document.getElementById('applyButton');
+            if (applyButton.disabled || !applyButton.classList.contains('active')) {
+                return; // Ничего не делаем, если нечего применять
+            }
+
+            // 2. Собрать все включенные функции
+            const enabledFeatures = [];
+            document.querySelectorAll('#stage2 input[type="checkbox"]:checked:not([disabled])').forEach(input => {
+                enabledFeatures.push(input.getAttribute('data-feature'));
+            });
+
+            // 3. Получить ID и Username
+            const id = document.getElementById('displayedId').textContent;
+            const username = document.getElementById('displayedUsername').textContent;
+
+            // 4. Показать модальное окно
+            const modal = document.getElementById('loadingModal');
+            document.getElementById('modalId').textContent = id;
+            document.getElementById('modalUsername').textContent = username;
+            document.getElementById('modalMessage').textContent = 'Processing...';
+            document.getElementById('progressBar').style.width = '0%';
+            document.getElementById('modalCloseButton').style.display = 'none';
+            modal.style.display = 'flex';
+
+            // 5. Запустить имитацию инжекции
+            simulateInjection(enabledFeatures);
+        }
+
+        // Функция имитации инжекции с прогресс-баром
+        function simulateInjection(features) {
+            const progressBar = document.getElementById('progressBar');
+            const modalMessage = document.getElementById('modalMessage');
+            const closeButton = document.getElementById('modalCloseButton');
+            const applyButton = document.getElementById('applyButton');
+
+            // Блокируем все переключатели на время инжекции
+            const allToggles = document.querySelectorAll('#stage2 input[type="checkbox"]');
+            allToggles.forEach(toggle => toggle.disabled = true);
+            
+            // Блокируем кнопку APPLY
+            applyButton.disabled = true;
+            applyButton.textContent = 'INJECTING...';
+
+            let progress = 0;
+            const totalSteps = injectionMessages.length;
+            const intervalTime = 600; // 0.6 секунды на шаг
+
+            const interval = setInterval(() => {
+                progress++;
+                const percentage = Math.min(100, Math.round((progress / totalSteps) * 100));
+                
+                // Обновляем прогресс-бар
+                progressBar.style.width = percentage + '%';
+                
+                // Обновляем сообщение (если есть)
+                if (progress <= totalSteps) {
+                    modalMessage.textContent = injectionMessages[progress - 1] || 'Finalizing...';
+                }
+
+                // Завершение
+                if (progress > totalSteps) {
+                    clearInterval(interval);
+                    
+                    // Показываем сообщение об успехе
+                    modalMessage.textContent = 'INJECTION SUCCESSFUL!';
+                    progressBar.style.width = '100%';
+                    progressBar.style.backgroundColor = 'green';
+                    
+                    // Показываем кнопку "OK"
+                    closeButton.style.display = 'block';
+                }
+            }, intervalTime);
+        }
+
+        // Функция для закрытия модального окна
+        function closeModal() {
+            const modal = document.getElementById('loadingModal');
+            modal.style.display = 'none';
+            
+            // Сбрасываем прогресс-бар
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = '0%';
+            progressBar.style.backgroundColor = 'red';
+
+            // Разблокируем все переключатели и сбрасываем их
+            const allToggles = document.querySelectorAll('#stage2 input[type="checkbox"]');
+            allToggles.forEach(toggle => {
+                toggle.disabled = false;
+                toggle.checked = false; // Сбрасываем состояние
+            });
+            
+            // Сбрасываем кнопку APPLY
+            const applyButton = document.getElementById('applyButton');
+            applyButton.textContent = 'APPLY';
+            updateApplyButton(); // Обновит ее состояние на "серую"
         }
         
-        // ===================================
-        // ФУНКЦИИ МОДАЛЬНОГО ОКНА И ИНЖЕКЦИИ
-        // ===================================
-
-        function getActiveFeaturesCount() {
-            return document.querySelectorAll('#stage2 input[type="checkbox"]:checked').length;
-        }
-
-        function handleApply() {
-            const applyButton = document.getElementById('applyButton');
-            if (!applyButton.classList.contains('active')) {
-                return; 
-            }
-            
-            const activeCount = getActiveFeaturesCount();
-            if (activeCount === 0) {
-                return; 
-            }
-
-            const modal = document.getElementById('loadingModal');
-            const message = document.getElementById('modalMessage');
-            const progressBar = document.getElementById('progressBar');
-            const closeButton = document.getElementById('modalCloseButton');
-            const modalId = document.getElementById('modalId');
-            const modalUsername = document.getElementById('modalUsername');
-            
-            // Получаем текущие ID и Username из Stage 2
-            const currentId = document.getElementById('displayedId').textContent;
-            const currentUsername = document.getElementById('displayedUsername').textContent;
-
-            // Обновляем данные в модальном окне
-            modalId.textContent = currentId;
-            modalUsername.textContent = currentUsername;
-
-            // Сброс и инициализация
-            modal.style.display = 'flex';
-            progressBar.style.width = '0%';
-            closeButton.style.display = 'none';
-            message.textContent = 'Preparing injection...';
-            
-            let currentStep = 0;
-            const stepDuration = 350; 
-            
-            // Получаем список названий активных функций
-            const activeFeatures = Array.from(document.querySelectorAll('#stage2 input[type="checkbox"]:checked'))
-                                          .map(checkbox => checkbox.getAttribute('data-feature'));
-
-            const allSteps = injectionMessages.concat(activeFeatures.map(f => `Injecting ${f}...`));
-
-
-            // Имитация цикла инжекции
-            function injectStep() {
-                if (currentStep < allSteps.length) {
-                    // Обновляем сообщение
-                    message.textContent = allSteps[currentStep];
-                    
-                    // Обновляем прогресс-бар
-                    const progress = ((currentStep + 1) / allSteps.length) * 100;
-                    progressBar.style.width = progress + '%';
-                    
-                    currentStep++;
-                    setTimeout(injectStep, stepDuration);
-                } else {
-                    // Завершение инжекции
-                    progressBar.style.width = '100%';
-                    
-                    // Финальное сообщение
-                    message.innerHTML = `<span style="color: lightgreen;">All functions activated!</span><br>Successfully applied ${activeCount} features!`;
-                    
-                    // Показываем кнопку OK
-                    setTimeout(() => {
-                        closeButton.style.display = 'block';
-                    }, 500);
-                }
-            }
-
-            // Начинаем процесс через короткую задержку
-            setTimeout(injectStep, 500);
-        }
-
-        function closeModal() {
-            document.getElementById('loadingModal').style.display = 'none';
-        }
-
-
+        // Инициализация при загрузке
         document.addEventListener('DOMContentLoaded', () => {
-            // Убедимся, что по умолчанию активна вкладка AIMBOT
+            // Показываем первую вкладку
             showTab('aimbot');
-            // При загрузке страницы проверяем состояние переключателей для кнопки APPLY
+            // Устанавливаем начальное состояние кнопки
             updateApplyButton();
         });
+
     </script>
 </body>
 </html>
